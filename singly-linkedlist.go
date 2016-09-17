@@ -35,8 +35,20 @@ func (l *List) insert(e, at *Element) *Element {
   return e
 }
 
-func (l *List) insertValue(v interface{}, at *Element) *Element {
-  return l.insert(&Element{Value: v}, at)
+func (l *List) insertValue(val interface{}, at *Element) *Element {
+  return l.insert(&Element{Value: val}, at)
+}
+
+func (l *List) insertAtEnd(val interface{}) *Element{
+  var last = &l.root
+  for i := 0; i < l.len - 1; i = i + 1 {
+    last = last.next
+  }
+  return l.insertValue(val, last)
+}
+
+func (l *List) insertAtFront(val interface{}) *Element{
+  return l.insertValue(val, &l.root)
 }
 
 func New() *List { return new(List).init() }
@@ -44,8 +56,10 @@ func New() *List { return new(List).init() }
 func main() {
   l := New()
   e := l.insertValue(1, l.root.next)
-  e1 := l.insertValue(3, e)
-  e2 := l.insertValue(2, e1)
-  fmt.Println(e2)
-  fmt.Println(l.root.next.next.next.Value)
+  l.insertAtFront(0)
+  // l.insertAtEnd(2)
+  // e1 := l.insertValue(3, e)
+  // e2 := l.insertValue(2, e1)
+  fmt.Println(e)
+  fmt.Println(l.root.next.next.Value)
 }
